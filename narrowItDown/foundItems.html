@@ -1,0 +1,11 @@
+<div ng-if="!list.nothingFound();">
+<h3>Menu</h3>
+<ol>
+  <li ng-repeat="item in list.found">
+    {{ item.name }}, {{ item.short_name }}, {{ item.description }}
+    <!-- <button ng-click="list.onRemove({index: $index});">Don't want this one!</button> -->
+    <button ng-click="list.removeItem($index);">Don't want this one!</button>
+  </li>
+</ol>
+</div>
+<div ng-if="list.nothingFound();">Nothing found</div>
