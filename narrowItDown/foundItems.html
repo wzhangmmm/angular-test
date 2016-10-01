@@ -1,7 +1,7 @@
 <p><br></p>
 <hr>
 <p></p>
-<div ng-if="!list.nothingFound();">
+<div ng-if="!list.errorMessage">
   <ol>
     <li ng-repeat="item in list.found">
       {{ item.name }}, {{ item.short_name }}, {{ item.description }}
@@ -10,4 +10,4 @@
     </li>
   </ol>
 </div>
-<div ng-if="list.nothingFound();"><h3>Nothing found</h3></div>
+<div ng-if="list.errorMessage"><h3> {{list.errorMessage}}</h3></div>

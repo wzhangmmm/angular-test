@@ -25,17 +25,23 @@ function NarrowItDownController(MenuSearchService) {
   var list = this;
   list.searchTerm = "";
   list.found = [];
+  list.errorMessage = "Nothing Found";
 
   list.narrowItDown = function () {
-    if (list.searchTerm === "") {
-      return;
-    }
     var promise = MenuSearchService.getMatchedMenuItems(list.searchTerm);
 
     promise.then(function (result) {
       list.found = result;
-      console.log("found:");
-      console.log(list.found);
+      // console.log(list.searchTerm);
+      // console.log("found:");
+      // console.log(list.found)
+      if (list.searchTerm == "" || list.found.length == 0) {
+        list.errorMessage = "Nothing Found";
+      }
+      else {
+        list.errorMessage = "";
+      }
+
     })
     .catch(function (error) {
       console.log(error);
@@ -43,20 +49,7 @@ function NarrowItDownController(MenuSearchService) {
   };
 
   list.removeItem = function (itemIndex) {
-    console.log("'this' is: ", this);
     list.found.splice(itemIndex, 1);
-  };
-
-  list.nothingFound = function () {
-    if (list.searchTerm == "") {
-      return true;
-    }
-
-    if (list.found.length == 0) {
-      return true;
-    }
-
-    return false;
   };
 
 }
@@ -73,7 +66,7 @@ function MenuSearchService($http, ApiBasePath) {
       url: (ApiBasePath + "/menu_items.json")
     }).then(function (result) {
       // process result and only keep items that match
-      console.log(result.data);
+      //console.log(result.data);
       var foundItems = [];
       result.data.menu_items.forEach(function (item, index) {
         if (item.description.indexOf(searchTerm) != -1) {
